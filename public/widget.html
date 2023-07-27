@@ -39,17 +39,13 @@
 
 
     <script>
-        let url = window.location.href;
-        const trimmedUrl = url.split("/")[0] + "//" + url.split("/")[2];
-        const currentUrl = trimmedUrl;
-
         let usd = 'usd';
         let eur = 'eur';
         let gbp = 'gbp';
 
         const getPrice = async (currency) => {
             try {
-                let response = await fetch(`http://localhost:3000/prices`);
+                let response = await fetch(`https://crypto-tracker-rr98.onrender.com/prices`);
                 let data = await response.json();
                 
                 const currencySymbol = {
