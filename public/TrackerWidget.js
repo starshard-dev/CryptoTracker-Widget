@@ -1,4 +1,4 @@
-fetch('http://127.0.0.1:5500/cryptotracker-widget/public/widget.html')
+fetch('https://crypto-tracker-rr98.onrender.com/')
     .then(response => response.text())
     .then(widgetHtml => {
 
