@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+}
+
+.widget {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    bottom: 0;
+    left: 0;
+    
+    width: 100%;
+    max-height: 45px;
+    padding: 10px 25px;
+    background: rgba(36, 36, 36, 0.8);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 999;
+}
+
+.widget .coins {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.widget .coins #one,
+.widget .coins #two {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.widget .coins #one div,
+.widget .coins #two div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.87);
+}
+.widget .coins #one div img,
+.widget .coins #two div img {
+    height: 25px;    
+    user-select: none;
+}
+
+@keyframes up {
+    0% {
+      text-shadow: 0 0 0 transparent;
+    }
+    50% {
+      text-shadow: 0 0 10px rgba(50, 255, 84);
+    }
+}
+@keyframes down {
+    0% {
+      text-shadow: 0 0 0 transparent;
+    }
+    50% {
+      text-shadow: 0 0 8px rgba(255, 50, 50), 
+      0 0 12px rgba(255, 50, 50);
+    }
+}
+
+
+@media screen and (max-width: 355px) {
+  .coins {
+    padding-left: 20px;
+    padding-right: 20px;
+    animation: marquee 15s infinite linear;
+  }
+  
+  .coins div {
+    display: inline-block;
+  }
+  
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+  
+    25% {
+      transform: translateX(25%);
+    }
+  
+    50% {
+      transform: translateX(0%);
+    }
+
+    75% {
+      transform: translateX(-25%);
+    }
+
+    100% {
+      transform: translateX(0%);
+    }
+  } 
+}

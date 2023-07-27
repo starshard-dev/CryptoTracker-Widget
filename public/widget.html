@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">        
+    <link rel="stylesheet" href="/css/widget.css">    
+</head>
+
+<body>
+    <div class="widget">
+
+        <div class="coins">
+            <div id="one">
+                <div>
+                    <img src="/svg/xmr.svg" draggable="false">
+                    <span class="price" id="monero"></span>
+                </div>
+                <div>
+                    <img src="/svg/wow.svg" draggable="false">
+                    <span class="price" id="wownero"></span>
+                </div>
+            </div>
+
+            <div id="two">
+                <div>
+                    <img src="/svg/doge.svg" draggable="false">
+                    <span class="price" id="dogecoin"></span>
+                </div>
+                <div>
+                    <img src="/svg/btc.svg" draggable="false">
+                    <span class="price" id="bitcoin"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dragger"></div>
+
+    </div>
+
+
+    <script>
+        let url = window.location.href;
+        const trimmedUrl = url.split("/")[0] + "//" + url.split("/")[2];
+        const currentUrl = trimmedUrl;
+
+        let usd = 'usd';
+        let eur = 'eur';
+        let gbp = 'gbp';
+
+        const getPrice = async (currency) => {
+            try {
+                let response = await fetch(`http://localhost:3000/prices`);
+                let data = await response.json();
+                
+                const currencySymbol = {
+                    usd: "$",
+                    eur: "€",
+                    gbp: "£"
+                };
+                
+
+                const priceEls = document.querySelectorAll('.coins .price');
+
+                priceEls.forEach( (priceEl) => {
+                    const currencyValue = data[priceEl.id][`${currency}`];            
+
+                    const formatter = new Intl.NumberFormat(undefined, {
+                        minimumFractionDigits: Number.isInteger(currencyValue) ? 0 : 2,
+                        maximumFractionDigits: 2
+                    });
+
+
+                    const displayValue = currencySymbol[`${currency}`] + formatter.format(currencyValue);
+
+                    let currentPrice = formatter.format(currencyValue);
+                    let prevPrice = priceEl.innerText.replace(/^\D+/g, '');
+                                
+
+                    if (prevPrice !== currentPrice) {                
+
+                        if (currentPrice < prevPrice) {
+                            priceEl.style.animation = "down 8s";
+                            priceEl.innerText = displayValue;
+                        } else {
+                            priceEl.style.animation = "up 8s";
+                            priceEl.innerText = displayValue;                
+                        }
+
+                        setTimeout(() => {
+                            priceEl.style.textShadow = "";
+                            priceEl.style.animation = "";
+                        }, 8100);
+                    }
+
+                    priceEl.innerText = displayValue;
+                })
+
+            }
+            catch(error) {
+                console.error(error);
+            }
+        }
+
+
+        const gettingPrice = (currency) => {
+            getPrice(currency);
+            
+            setInterval(() => {
+                getPrice(currency);
+            }, 120000);  // Execute every 60 seconds
+        }
+        
+        
+    </script>
+</body>
+
+</html>
